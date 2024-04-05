@@ -8,19 +8,16 @@ from src.domains import User, Token, TokenType
 from datetime import datetime
 
 from src.exceptions import ExpiredTokenException
-from src.users.repository import UserRepository
 
 
 class TokenManager:
 
     def __init__(
             self,
-            user_repository: UserRepository,
             private_key: bytes,
             access_token_lifetime: int = 86400,  # 하루
             refresh_token_lifetime: int = 2592000,  # 한달
     ):
-        self.user_repository = user_repository
         self.private_key = private_key
         self.access_token_lifetime = access_token_lifetime
         self.refresh_token_lifetime = refresh_token_lifetime

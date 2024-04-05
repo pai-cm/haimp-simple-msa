@@ -18,7 +18,7 @@ Base = declarative_base()
 class Database:
     """비동기 데이터베이스 클래스"""
 
-    def __init__(self, db_host:str):
+    def __init__(self, db_host: str):
         self._engine = create_async_engine(db_host)
 
         self._session_factory = async_scoped_session(

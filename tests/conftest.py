@@ -62,8 +62,8 @@ def given_public_pem_file(given_public_key):
 
 
 @pytest.fixture
-def given_token_manager(given_repository, given_private_pem) -> TokenManager:
-    return TokenManager(given_repository, given_private_pem)
+def given_token_manager(given_private_pem) -> TokenManager:
+    return TokenManager(given_private_pem)
 
 
 @pytest.fixture
