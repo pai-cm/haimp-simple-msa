@@ -31,3 +31,7 @@ class AlreadySignUpException(DatabaseException):
 
 class ExpiredTokenException(HaimpException):
     """만료된 토큰"""
+
+
+class InvalidRequestException(HaimpException):
+    """ 부적절한 요청 왔을 때"""
