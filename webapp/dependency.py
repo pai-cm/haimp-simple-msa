@@ -16,7 +16,7 @@ def database_dependency(settings=Depends(settings_dependency)):
 
 
 def user_repository_dependency(database=Depends(database_dependency)):
-    return UserRepository(database)
+    return UserRepository(database.session)
 
 def token_manager_dependency(settings=Depends(settings_dependency)):
     return TokenManager(settings)
