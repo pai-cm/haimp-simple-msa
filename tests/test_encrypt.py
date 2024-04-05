@@ -1,5 +1,5 @@
 import pytest
-from src.auth import load_rsa_key, load_cipher
+from src.auth import load_rsa_key, load_rsa_cipher
 
 
 def test_load_rsa_private_key(given_private_pem_file):
@@ -26,8 +26,8 @@ def test_load_rsa_public_key(given_public_pem_file):
 
 def test_cipher_encrypt_decrypt(given_private_pem_file, given_public_pem_file):
     """cipher 가져와서 암호화 복호화 하기"""
-    given_private_key_cipher = load_cipher(given_private_pem_file)
-    given_public_key_cipher = load_cipher(given_public_pem_file)
+    given_private_key_cipher = load_rsa_cipher(given_private_pem_file)
+    given_public_key_cipher = load_rsa_cipher(given_public_pem_file)
     given_text = '안녕 김채민'
 
     cipher_text = given_public_key_cipher.encrypt(given_text.encode('utf-8'))
@@ -38,7 +38,7 @@ def test_cipher_encrypt_decrypt(given_private_pem_file, given_public_pem_file):
 
 def test_try_encrypt_using_public_key_raise_exception(given_public_pem_file):
     """ public key 로 복호화 해보기"""
-    given_public_key_cipher = load_cipher(given_public_pem_file)
+    given_public_key_cipher = load_rsa_cipher(given_public_pem_file)
     given_text = '안녕 김채민'
 
     cipher_text = given_public_key_cipher.encrypt(given_text.encode('utf-8'))
