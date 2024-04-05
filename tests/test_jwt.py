@@ -94,6 +94,7 @@ def test_skip_verify_decode(given_private_pem_file, given_public_pem_file):
     private_pem = load_pem(given_private_pem_file)
     public_pem = load_pem(given_public_pem_file)
     jwt_token = jwt.encode(given_payload, private_pem, algorithm='RS256')
+    print(jwt_token)
 
     output = jwt.decode(jwt_token, public_pem, algorithms=['RS256'], options={
         "verify_signature": False
