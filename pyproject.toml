@@ -4,10 +4,14 @@ version = "0.1.0"
 description = ""
 authors = ["pai-cm <cmkim@publicai.co.kr>"]
 readme = "README.md"
+packages = [{include="src"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11,<3.12"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
 
 [build-system]
 requires = ["poetry-core"]
