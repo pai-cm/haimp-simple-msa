@@ -1,4 +1,4 @@
-from src.domains import User, LoginRequest
+from src.domains import User, LoginRequest, Token
 from src.exceptions import DBIntegrityException, AlreadySignUpException
 from src.tokens import TokenManager
 from src.users.repository import UserRepository
@@ -18,7 +18,7 @@ class LoginManager:
         except DBIntegrityException:
             raise AlreadySignUpException("이미 가입된 유저입니다.")
 
-    async def login(self, login_request: LoginRequest):
+    async def login(self, login_request: LoginRequest) -> Token:
         """
         유저
         토큰을 반환합니다.
@@ -26,7 +26,7 @@ class LoginManager:
         user = await self.user_repository.read_by_login_request(login_request)
         return self.token_manager.generate_token(user=user)
     
-    async def refresh(self, refresh_token: str):
+    async def refresh(self, refresh_token: str) -> Token:
         # refresh token의 만료 여부를 확인합니다
         # token 에서 user_name 을 반환합니다
         user_name = self.token_manager.verify_refresh_token(refresh_token)
