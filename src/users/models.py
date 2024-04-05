@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String
 
 from src.database import Base
-from src.domains import User, LoginRequest
+from src.domains import User
 
 
 class UserEntity(Base):
