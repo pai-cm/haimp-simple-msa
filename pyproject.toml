@@ -4,7 +4,10 @@ version = "0.1.0"
 description = ""
 authors = ["pai-cm <cmkim@publicai.co.kr>"]
 readme = "README.md"
-packages = [{include="src"}]
+packages = [
+    {include="src"},
+    {include='webapp'}
+]
 
 [tool.poetry.dependencies]
 python = "^3.11,<3.12"
@@ -15,6 +18,8 @@ sqlalchemy = "^2.0.29"
 aiosqlite = "^0.20.0"
 pre-commit = "^3.7.0"
 greenlet = "^3.0.3"
+fastapi = "^0.110.1"
+pydantic-settings = "^2.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
