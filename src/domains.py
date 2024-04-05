@@ -14,7 +14,7 @@ id, password로 유저 정보 조회 하면 유저 정보가 나오고 user 정�
 @dataclass
 class LoginRequest:
     """ 로그인에 필요한 필수 정보"""
-    user_name: str
+    username: str
     password: str
 
 

@@ -42,9 +42,9 @@ def test_generate_public_key():
 
     public_key = key_pair.public_key()
 
-    assert hasattr(public_key, 'd')
-    assert hasattr(public_key, 'p')
-    assert hasattr(public_key, 'q')
+    assert not hasattr(public_key, 'd')
+    assert not hasattr(public_key, 'p')
+    assert not hasattr(public_key, 'q')
 
 
 def check_generate_key_double():

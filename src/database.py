@@ -4,10 +4,11 @@ from contextlib import AbstractContextManager, asynccontextmanager
 from typing import Callable
 import logging
 
+import sqlalchemy.exc
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker, async_scoped_session
-from src.exceptions import DatabaseException
+from src.exceptions import DatabaseException, NotFoundException, DBIntegrityException
 
 logger = logging.getLogger(__name__)
 
@@ -45,10 +46,18 @@ class Database:
         session: AsyncSession = self._session_factory()
         try:
             yield session
+        except sqlalchemy.exc.NoResultFound:
+            await session.rollback()
+            raise NotFoundException("데이터를 못발견했아요")
+        except sqlalchemy.exc.IntegrityError:
+            await session.rollback()
+            raise DBIntegrityException("데이터를 못발견했아요")
+
+
         except Exception as e:
             logger.exception("Session rollback because of exception")
             await session.rollback()
-            raise DatabaseException("DB 처리 중 문제가 발생했습니다.", e)
+            raise DatabaseException(f"DB 처리 중 문제가 발생했습니다. error: {e}")
         finally:
             await session.close()
             await self._session_factory.remove()

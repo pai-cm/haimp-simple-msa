@@ -1,5 +1,5 @@
 import pytest
-from src.auth import load_rsa_key, load_rsa_cipher
+from src.auth import load_rsa_key, load_rsa_cipher, private_pem2public_pem
 
 
 def test_load_rsa_private_key(given_private_pem_file):
@@ -11,6 +11,16 @@ def test_load_rsa_private_key(given_private_pem_file):
     assert hasattr(private_key, 'd')
     assert hasattr(private_key, 'p')
     assert hasattr(private_key, 'q')
+
+
+def test_private2public(given_private_pem_file):
+    """RSA 올바르게 불러오기"""
+    private_key = load_rsa_key(given_private_pem_file)
+
+    public_pem = private_pem2public_pem(private_key.export_key())
+
+    assert private_key.public_key().export_key() == public_pem
+
 
 
 def test_load_rsa_public_key(given_public_pem_file):
