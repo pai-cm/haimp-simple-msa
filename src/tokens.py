@@ -8,23 +8,19 @@ from src.domains import User, Token, TokenType
 from datetime import datetime
 
 from src.exceptions import ExpiredTokenException
+from src.settings import AuthSettings
 
 
 class TokenManager:
+    """"""
 
-    def __init__(
-            self,
-            private_key: bytes,
-            access_token_lifetime: int = 86400,  # 하루
-            refresh_token_lifetime: int = 2592000,  # 한달
-    ):
-        self.private_key = private_key
-        self.access_token_lifetime = access_token_lifetime
-        self.refresh_token_lifetime = refresh_token_lifetime
+    def __init__(self, settings: AuthSettings):
+        self.private_key = settings.private_key
+        self.access_token_lifetime = settings.access_token_lifetime
+        self.refresh_token_lifetime = settings.refresh_token_lifetime
 
     def generate_token(self, user: User) -> Token:
         """access token 을 생성합니다."""
-
         # access token 만들기
         access = create_jwt_token(
             user.to_dict(),

@@ -9,6 +9,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.ext.asyncio import async_sessionmaker, async_scoped_session
 from src.exceptions import DatabaseException, NotFoundException, DBIntegrityException
+from src.settings import AuthSettings
 
 logger = logging.getLogger(__name__)
 
@@ -18,8 +19,8 @@ Base = declarative_base()
 class Database:
     """비동기 데이터베이스 클래스"""
 
-    def __init__(self, db_host: str):
-        self._engine = create_async_engine(db_host)
+    def __init__(self, settings: AuthSettings):
+        self._engine = create_async_engine(settings.db_host)
 
         self._session_factory = async_scoped_session(
             async_sessionmaker(
