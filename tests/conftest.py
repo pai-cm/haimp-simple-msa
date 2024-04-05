@@ -15,6 +15,16 @@ def given_public_key(given_private_key):
 
 
 @pytest.fixture
+def given_private_pem(given_private_key):
+    return given_private_key.export_key()
+
+
+@pytest.fixture
+def given_public_pem(given_public_key):
+    return given_public_key.export_key()
+
+
+@pytest.fixture
 def given_private_pem_file(given_private_key):
     fpath = tempfile.mktemp()
     with open(fpath, "wb") as f:
