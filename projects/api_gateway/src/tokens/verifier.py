@@ -1,14 +1,15 @@
 import jwt
 
 from projects.api_gateway.src.exceptions import ExpiredTokenException, InvalidSignatureException
+from src.settings import ApiGatewaySettings
 
 
 class TokenVerifier:
     """
     토큰 검증
     """
-    def __init__(self, public_key):
-        self.public_key = public_key
+    def __init__(self, settings: ApiGatewaySettings):
+        self.public_key = settings.public_key
 
     def verify_access_token(self, access_token: str):
         """access token을 검증합니다."""

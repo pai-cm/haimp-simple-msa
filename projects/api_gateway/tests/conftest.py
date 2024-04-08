@@ -4,6 +4,23 @@ import tempfile
 import os
 
 from projects.api_gateway.src.tokens.verifier import TokenVerifier
+from src.settings import ApiGatewaySettings
+from webapp.app import create_app
+from webapp.dependency import settings_dependency
+
+
+@pytest.fixture
+def given_api_gateway_settings(given_public_pem):
+    yield ApiGatewaySettings(
+        public_key=given_public_pem
+    )
+
+
+@pytest.fixture
+def test_app(given_api_gateway_settings):
+    app = create_app()
+    app.dependency_overrides[settings_dependency] = lambda: given_api_gateway_settings
+    yield app
 
 
 @pytest.fixture
@@ -45,5 +62,5 @@ def given_public_pem_file(given_public_key):
 
 
 @pytest.fixture
-def given_token_verifier(given_public_pem) -> TokenVerifier:
-    return TokenVerifier(given_public_pem)
+def given_token_verifier(given_api_gateway_settings) -> TokenVerifier:
+    return TokenVerifier(given_api_gateway_settings)
