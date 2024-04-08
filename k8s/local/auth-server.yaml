@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-server
+  template:
+    metadata:
+      labels:
+        app: auth-server
+    spec:
+      volumes:
+        - name: app-volume
+          emptyDir: {}
+      initContainers:
+        - name: create-db
+          image: auth-server:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "scripts/create_test_db.py"]
+          args: ["/mnt/test.db"]
+          volumeMounts:
+            - name: app-volume
+              mountPath: /mnt
+
+      containers:
+        - name: auth-server
+          image: auth-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: auth-server-config
+          volumeMounts:
+            - name: app-volume
+              mountPath: /mnt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-server
+spec:
+  selector:
+    app: auth-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      name: rest-endpoint
+
+  type: ClusterIP

@@ -4,6 +4,7 @@ WORKDIR app/
 
 RUN pip install poetry
 
+COPY scripts/ scripts/
 COPY src/__init__.py src/__init__.py
 COPY webapp/__init__.py webapp/__init__.py
 

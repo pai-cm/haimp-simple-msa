@@ -5,7 +5,7 @@
 ### 1. test db 생성하기
 
 ````shell
-python3 scripts/create_test_db.py
+python3 scripts/create_test_db.py ./test.db
 ````
 
 ### 2. 테스트 env 작성
