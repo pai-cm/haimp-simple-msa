@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-script
+data:
+  auth-server-db-init.sql: |
+    CREATE EXTENSION IF NOT EXISTS dblink;
+    DO $$
+      BEGIN
+          IF NOT EXISTS (
+              SELECT FROM pg_database WHERE datname = 'auth-server'
+          )
+          THEN
+               PERFORM dblink_exec('dbname=postgres user=admin password=admin123', 'CREATE DATABASE "auth-server"');
+          END IF;
+      END$$;
+
+  auth-server-init.sql: |
+    -- 테이블 생성
+    CREATE TABLE IF NOT EXISTS users (
+        user_name VARCHAR NOT NULL,
+        password VARCHAR,
+        user_group VARCHAR,
+        user_role VARCHAR,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+        PRIMARY KEY (user_name)
+    );
+    
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: create-auth-db
+        image: postgres:16
+        command: ["psql"]
+        args: ["-h", "haimp-database", "-U", "admin", "-a", "-f", "/scripts/auth-server-db-init.sql"]
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: haimp-database-config
+              key: DB_PASSWORD
+
+        volumeMounts:
+          - name: script-volume
+            mountPath: "/scripts"
+
+      - name: init-db
+        image: postgres:16
+        command: ["psql"]
+        args: ["-h", "haimp-database", "-U", "admin",
+			   "-d", "auth-server", "-a", "-f", "/scripts/auth-server-init.sql"]
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: haimp-database-config
+              key: DB_PASSWORD
+
+        volumeMounts:
+        - name: script-volume
+          mountPath: "/scripts"
+      restartPolicy: Never
+      volumes:
+      - name: script-volume
+        configMap:
+          name: init-script
+  backoffLimit: 6
+  ttlSecondsAfterFinished: 3600

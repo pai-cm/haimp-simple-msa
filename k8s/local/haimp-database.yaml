@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: haimp-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: haimp-database
+  template:
+    metadata:
+      labels:
+        app: haimp-database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: haimp-database-config
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: haimp-database-config
+                  key: DB_PASSWORD
+            - name: POSTGRES_DB
+              value: "postgres"
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: postgres-data
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: haimp-database-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: haimp-database
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+  selector:
+    app: haimp-database
+
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: haimp-database-pv
+spec:
+  capacity:
+    storage: 3Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ""
+  hostPath:
+    path: "/mnt/data/haimp-database-data"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: haimp-database-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+  volumeName: haimp-database-pv
+  storageClassName: ""

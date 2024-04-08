@@ -4,6 +4,7 @@ metadata:
   name: auth-server-config
 data:
   DB_HOST: "sqlite+aiosqlite:////mnt/test.db"
+  DB_NAME: "auth-server"
   PRIVATE_KEY: |
     -----BEGIN RSA PRIVATE KEY-----
     MIICXQIBAAKBgQDH+ifpuRSimi2jFMlZXKQ0qqW/rItLgljGw8W9nK1AekZWjLeU
