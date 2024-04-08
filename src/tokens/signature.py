@@ -1,8 +1,6 @@
 from Crypto.Signature import pkcs1_15
 from Crypto.Hash import SHA256
-import base64
-from src.auth import load_rsa_key
-import jwt
+from src.tokens.auth import load_rsa_key
 
 
 def load_sig_scheme(key_path: str):

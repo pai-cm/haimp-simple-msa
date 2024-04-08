@@ -11,7 +11,7 @@ jwt: header message signature (H.P.S)
 base64 를 통해 h 와 p 는 나온다
 """
 import json
-from src.signature import sign_data_by_rsa, verify_data_by_rsa
+from src.tokens.signature import sign_data_by_rsa, verify_data_by_rsa
 
 
 def test_generate_signature_and_verify(given_private_pem_file, given_public_pem_file):

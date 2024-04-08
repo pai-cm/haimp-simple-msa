@@ -4,20 +4,24 @@ import tempfile
 import os
 
 from src.database import Database
-from src.tokens import TokenManager
+from src.settings import AuthSettings
+from src.tokens.manager import TokenManager
 from src.users.login_manager import LoginManager
 from src.users.reader import UserReader
 from src.users.repository import UserRepository
 
 
 @pytest.fixture
-def given_test_db_host():
-    yield "sqlite+aiosqlite:///:memory:"
+def given_auth_settings(given_private_pem):
+    yield AuthSettings(
+        db_host="sqlite+aiosqlite:///:memory:",
+        private_key=given_private_pem
+    )
 
 
 @pytest.fixture
-async def given_database(given_test_db_host) -> Database:
-    db = Database(given_test_db_host)
+async def given_database(given_auth_settings) -> Database:
+    db = Database(given_auth_settings)
     await db.create_database()
     yield db
     await db.drop_database()
@@ -62,8 +66,8 @@ def given_public_pem_file(given_public_key):
 
 
 @pytest.fixture
-def given_token_manager(given_private_pem) -> TokenManager:
-    return TokenManager(given_private_pem)
+def given_token_manager(given_auth_settings) -> TokenManager:
+    return TokenManager(given_auth_settings)
 
 
 @pytest.fixture

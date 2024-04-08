@@ -2,7 +2,7 @@ from typing import Dict
 
 import jwt
 
-from src.auth import private_pem2public_pem
+from src.tokens.auth import private_pem2public_pem
 from src.domains import User, Token, TokenType
 
 from datetime import datetime

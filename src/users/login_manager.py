@@ -1,6 +1,6 @@
 from src.domains import User, LoginRequest, Token
 from src.exceptions import DBIntegrityException, AlreadySignUpException
-from src.tokens import TokenManager
+from src.tokens.manager import TokenManager
 from src.users.repository import UserRepository
 
 

@@ -1,7 +1,7 @@
 import jwt
 import pytest
 
-from src.auth import load_pem
+from src.tokens.auth import load_pem
 import json
 import base64
 from datetime import datetime

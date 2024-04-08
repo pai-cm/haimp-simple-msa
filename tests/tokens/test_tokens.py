@@ -2,7 +2,7 @@ import pytest
 
 from src.domains import TokenType, User
 from src.exceptions import ExpiredTokenException
-from src.tokens import create_jwt_token
+from src.tokens.manager import create_jwt_token
 import jwt
 
 

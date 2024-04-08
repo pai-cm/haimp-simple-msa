@@ -1,5 +1,5 @@
 import pytest
-from src.auth import load_rsa_key, load_rsa_cipher, private_pem2public_pem
+from src.tokens.auth import load_rsa_key, load_rsa_cipher, private_pem2public_pem
 
 
 def test_load_rsa_private_key(given_private_pem_file):
