@@ -1,5 +1,5 @@
-from src.database import Database
-from src.settings import AuthSettings
+from projects.auth_server.src.database import Database
+from projects.auth_server.src.settings import AuthSettings
 import asyncio
 
 
@@ -9,8 +9,6 @@ entity는 아래에 기술해서 BASE가 알수 있게 끔 preloading을 해주�
 Base에 상속되어 있는 Entity들을 create_database 시에 테이블을 생성하는 데
 import 가 안되어 있으면, 존재를 몰라서, 테이블을 생성하지 않는다.
 """
-from src.users import models
-
 
 if __name__ == '__main__':
     db = Database(AuthSettings(

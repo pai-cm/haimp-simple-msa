@@ -7,7 +7,6 @@ from src.database import Database
 from src.settings import AuthSettings
 from src.tokens.manager import TokenManager
 from src.users.login_manager import LoginManager
-from src.users.reader import UserReader
 from src.users.repository import UserRepository
 
 
