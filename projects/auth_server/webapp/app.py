@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from projects.auth_server.webapp.routers import auth, health_check
+from webapp.routers import auth, health_check
 
 
 def create_app() -> FastAPI:

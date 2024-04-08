@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from projects.auth_server.src.users.login_manager import LoginManager
-from projects.auth_server.webapp.dependency import login_manager_dependency
-from projects.auth_server.webapp.dto import SignupRequestDTO, OkDTO, LoginRequestDTO, TokenDTO, RefreshTokenDTO
+from src.users.login_manager import LoginManager
+from webapp.dependency import login_manager_dependency
+from webapp.dto import SignupRequestDTO, OkDTO, LoginRequestDTO, TokenDTO, RefreshTokenDTO
 
 router = APIRouter()
 

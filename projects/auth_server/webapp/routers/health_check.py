@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from projects.auth_server.webapp.dto import OkDTO
+from webapp.dto import OkDTO
 
 router = APIRouter()
 

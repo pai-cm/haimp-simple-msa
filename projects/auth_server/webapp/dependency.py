@@ -1,10 +1,10 @@
 from fastapi import Depends
 
-from projects.auth_server.src.database import Database
-from projects.auth_server.src.settings import AuthSettings
-from projects.auth_server.src.tokens import TokenManager
-from projects.auth_server.src.users.login_manager import LoginManager
-from projects.auth_server.src.users.repository import UserRepository
+from src.database import Database
+from src.settings import AuthSettings
+from src.tokens.manager import TokenManager
+from src.users.login_manager import LoginManager
+from src.users.repository import UserRepository
 
 
 def settings_dependency():
