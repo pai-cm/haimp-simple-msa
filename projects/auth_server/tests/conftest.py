@@ -13,7 +13,7 @@ from src.users.repository import UserRepository
 @pytest.fixture
 def given_auth_settings(given_private_pem):
     yield AuthSettings(
-        db_host="sqlite+aiosqlite:///:memory:",
+        db_type="sqlite+aiosqlite:///:memory:",
         private_key=given_private_pem
     )
 

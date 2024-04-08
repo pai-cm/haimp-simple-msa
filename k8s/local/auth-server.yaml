@@ -15,15 +15,6 @@ spec:
       volumes:
         - name: app-volume
           emptyDir: {}
-      initContainers:
-        - name: create-db
-          image: auth-server:latest
-          imagePullPolicy: IfNotPresent
-          command: ["python", "scripts/create_test_db.py"]
-          args: ["/mnt/test.db"]
-          volumeMounts:
-            - name: app-volume
-              mountPath: /mnt
 
       containers:
         - name: auth-server
@@ -34,6 +25,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: auth-server-config
+            - configMapRef:
+                name: haimp-database-config
           volumeMounts:
             - name: app-volume
               mountPath: /mnt

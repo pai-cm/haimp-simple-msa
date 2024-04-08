@@ -18,7 +18,7 @@ if __name__ == '__main__':
     if not os.path.exists(file_path):
         print("test db를 생성합니다.")
         db = Database(AuthSettings(
-            db_host=f"sqlite+aiosqlite:///{file_path}",
+            db_type=f"sqlite+aiosqlite:///{file_path}",
             private_key=""
         ))
         asyncio.run(db.create_database())

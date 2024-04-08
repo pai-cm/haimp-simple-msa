@@ -4,9 +4,29 @@ from pydantic import Field
 
 class AuthSettings(BaseSettings):
     """ Auth Server를 위한 환경 변수 목록들 """
-    db_host: str = Field(
-        description="DB HOST",
+    db_type: str = Field(
+        description="DB 유형",
         default='sqlite+aiosqlite:///:memory:'
+    )
+
+    db_host: str = Field(
+        description="db host",
+        default="haimp-database"
+    )
+
+    db_name: str = Field(
+        default="auth-server",
+        description="디비 스키마 이름"
+    )
+
+    db_user: str = Field(
+        default="admin",
+        description="디비 유저 이름"
+    )
+
+    db_password: str = Field(
+        default="admin123",
+        description="디비 패스워드 이름"
     )
 
     private_key: bytes = Field(

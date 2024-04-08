@@ -4,13 +4,13 @@ import os
 
 def test_initialize_auth_settings(given_private_pem):
     settings = AuthSettings(
-        db_host="sqlite+aiosqlite:///file.db",
+        db_type="sqlite+aiosqlite:///file.db",
         private_key=given_private_pem,
         access_token_lifetime=10000,
         refresh_token_lifetime=86400
     )
 
-    assert settings.db_host =="sqlite+aiosqlite:///file.db"
+    assert settings.db_type == "sqlite+aiosqlite:///file.db"
     assert settings.private_key == given_private_pem
     assert settings.access_token_lifetime == 10000
     assert settings.refresh_token_lifetime == 86400
@@ -24,7 +24,7 @@ def test_initialize_auth_settings_from_env(given_private_pem):
 
     settings = AuthSettings()
 
-    assert settings.db_host =="sqlite+aiosqlite:///file.db"
+    assert settings.db_type == "sqlite+aiosqlite:///file.db"
     assert settings.private_key == given_private_pem
     assert settings.access_token_lifetime == 10000
     assert settings.refresh_token_lifetime == 86400
@@ -38,7 +38,7 @@ def test_initialize_auth_settings_from_env_upper(given_private_pem):
 
     settings = AuthSettings()
 
-    assert settings.db_host =="sqlite+aiosqlite:///file.db"
+    assert settings.db_type == "sqlite+aiosqlite:///file.db"
     assert settings.private_key == given_private_pem
     assert settings.access_token_lifetime == 10000
     assert settings.refresh_token_lifetime == 86400

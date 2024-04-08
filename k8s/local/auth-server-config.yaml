@@ -3,7 +3,8 @@ kind: ConfigMap
 metadata:
   name: auth-server-config
 data:
-  DB_HOST: "sqlite+aiosqlite:////mnt/test.db"
+  DB_TYPE: "postgresql"
+  DB_HOST: "haimp-database"
   DB_NAME: "auth-server"
   PRIVATE_KEY: |
     -----BEGIN RSA PRIVATE KEY-----

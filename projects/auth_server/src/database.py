@@ -20,7 +20,13 @@ class Database:
     """비동기 데이터베이스 클래스"""
 
     def __init__(self, settings: AuthSettings):
-        self._engine = create_async_engine(settings.db_host, echo=True)
+        if settings.db_type.startswith('sqlite'):
+            self._engine = create_async_engine(settings.db_type)
+        elif settings.db_type.startswith("postgresql"):
+            url = f"postgresql+asyncpg://{settings.db_user}:{settings.db_password}@{settings.db_host}/{settings.db_name}"
+            self._engine = create_async_engine(url)
+        else:
+            raise DatabaseException(f"지원하지 않는 database type입니다. {settings.db_type}")
 
         self._session_factory = async_scoped_session(
             async_sessionmaker(
